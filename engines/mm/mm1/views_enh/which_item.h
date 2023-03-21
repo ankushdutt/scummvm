@@ -19,70 +19,28 @@
  *
  */
 
-#ifndef MM1_VIEWS_ENH_LOCATIONS_BLACKSMITH_ITEMS_H
-#define MM1_VIEWS_ENH_LOCATIONS_BLACKSMITH_ITEMS_H
+#ifndef MM1_VIEWS_ENH_WHICH_ITEM_H
+#define MM1_VIEWS_ENH_WHICH_ITEM_H
 
-#include "mm/mm1/views_enh/items_view.h"
-#include "mm/mm1/data/locations.h"
+#include "mm/mm1/views_enh/scroll_view.h"
 
 namespace MM {
 namespace MM1 {
 namespace ViewsEnh {
-namespace Locations {
 
-class BlacksmithItems : public ItemsView,
-	public BlacksmithData, public BuyWeaponData,
-	public BuyArmorData, public BuyMiscData {
+class WhichItem : public ScrollView {
 private:
-	enum BlacksmithMode {
-		WEAPONS_MODE = 0, ARMOR_MODE = 1, MISC_MODE = 2,
-		SELL_MODE = 3
-	};
-	BlacksmithMode _mode = WEAPONS_MODE;
-	int _buySellItem = -1;
-
-	/**
-	 * Populates the list of items
-	 */
-	void populateItems();
-
-	/**
-	 * Displays the title row
-	 */
-	void drawTitle();
-
-	/**
-	 * Called if the buy/sell action has been confirmed
-	 */
-	void itemConfirmed();
-
-protected:
-	/**
-	 * Get the text color for a line
-	 */
-	int getLineColor() const override;
-
-	/**
-	 * Called when an item is selected
-	 */
-	void itemSelected() override;
-
-	/**
-	 * When the selected character is changed
-	 */
-	void selectedCharChanged() override;
-
+	Common::String _msg;
 public:
-	BlacksmithItems();
-	virtual ~BlacksmithItems() {}
+	WhichItem();
+	virtual ~WhichItem() {}
 
-	bool msgFocus(const FocusMessage &msg) override;
+	bool msgGame(const GameMessage &msg) override;
 	void draw() override;
 	bool msgKeypress(const KeypressMessage &msg) override;
 	bool msgAction(const ActionMessage &msg) override;
 };
 
-} // namespace Location
 } // namespace ViewsEnh
 } // namespace MM1
 } // namespace MM

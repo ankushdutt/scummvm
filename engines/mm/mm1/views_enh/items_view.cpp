@@ -49,7 +49,7 @@ void ItemsView::addButton(int frame, const Common::String &text,
 }
 
 bool ItemsView::msgFocus(const FocusMessage &msg) {
-	ScrollView::msgFocus(msg);
+	PartyView::msgFocus(msg);
 
 	// Disable the normal '1' to '6' character selection keybindings,
 	// since we're using them in this dialog for item selection
@@ -57,6 +57,15 @@ bool ItemsView::msgFocus(const FocusMessage &msg) {
 
 	_selectedItem = -1;
 	return true;
+}
+
+bool ItemsView::msgGame(const GameMessage &msg) {
+	if (msg._name == "UPDATE") {
+		selectedCharChanged();
+		return true;
+	}
+
+	return PartyView::msgGame(msg);
 }
 
 void ItemsView::draw() {
@@ -88,7 +97,7 @@ void ItemsView::draw() {
 			item._name.c_str()
 		);
 
-		setTextColor(i == _selectedItem ? 15 : 0);
+		setTextColor(i == _selectedItem ? 15 : getLineColor());
 		writeLine(2 + i, line, ALIGN_LEFT, 10);
 
 		if (_costMode != NO_COST) {
@@ -116,6 +125,26 @@ bool ItemsView::msgKeypress(const KeypressMessage &msg) {
 	}
 
 	return PartyView::msgKeypress(msg);
+}
+
+bool ItemsView::msgMouseDown(const MouseDownMessage &msg) {
+	if (msg._pos.x >= (_innerBounds.left + 10) &&
+			msg._pos.x < _innerBounds.right) {
+		int y = msg._pos.y - (_innerBounds.top + 2 * 9);
+
+		if (y >= 0) {
+			int lineNum = y / 9;
+			if (lineNum < (int)_items.size()) {
+				_selectedItem = lineNum;
+				draw();
+
+				itemSelected();
+				return true;
+			}
+		}
+	}
+
+	return PartyView::msgMouseDown(msg);
 }
 
 bool ItemsView::msgAction(const ActionMessage &msg) {

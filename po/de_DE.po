@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ScummVM 1.10.0git\n"
 "Report-Msgid-Bugs-To: scummvm-devel@lists.scummvm.org\n"
-"POT-Creation-Date: 2023-03-19 18:26+0000\n"
-"PO-Revision-Date: 2023-03-18 07:33+0000\n"
+"POT-Creation-Date: 2023-03-20 20:44+0000\n"
+"PO-Revision-Date: 2023-03-20 18:01+0000\n"
 "Last-Translator: Lothar Serra Mari <lothar.serramari@scummvm.org>\n"
 "Language-Team: German <https://translations.scummvm.org/projects/scummvm/"
 "scummvm/de/>\n"
@@ -1022,7 +1022,7 @@ msgstr "Plattform nicht erkannt"
 msgid "All"
 msgstr "Alle"
 
-#: gui/launcher.cpp:1570
+#: gui/launcher.cpp:1573
 msgid "Icons per row:"
 msgstr "Icons pro Reihe:"
 
@@ -2152,7 +2152,7 @@ msgstr "Aufnahme"
 msgid "Playback"
 msgstr "Wiedergabe"
 
-#: gui/recorderdialog.cpp:77 gui/widgets/grid.cpp:233
+#: gui/recorderdialog.cpp:77 gui/widgets/grid.cpp:248
 msgid "Edit"
 msgstr "Bearbeiten"
 
@@ -2350,11 +2350,11 @@ msgstr ""
 msgid "Clear value"
 msgstr "Wert löschen"
 
-#: gui/widgets/grid.cpp:227
+#: gui/widgets/grid.cpp:242
 msgid "Play"
 msgstr "Spielen"
 
-#: gui/widgets/grid.cpp:230
+#: gui/widgets/grid.cpp:245
 msgid "Saves"
 msgstr "Spielstände"
 
@@ -5816,13 +5816,11 @@ msgstr "Feuer"
 
 #: engines/icb/icb.cpp:103
 msgid "Arm"
-msgstr ""
+msgstr "Ausrüsten"
 
 #: engines/icb/icb.cpp:108
-#, fuzzy
-#| msgid "Remove"
 msgid "Remora"
-msgstr "Entfernen"
+msgstr "Remora"
 
 #: engines/icb/icb.cpp:118 engines/icb/icb.cpp:178
 msgid "Side Step"
@@ -6290,10 +6288,8 @@ msgstr "Kämpfen"
 #. I18N: Combat command in MM1
 #. I18N: Action of hero party in MM1
 #: engines/mm/mm1/metaengine.cpp:61 engines/mm/mm1/metaengine.cpp:89
-#, fuzzy
-#| msgid "Preferences"
 msgid "Quick Reference"
-msgstr "Einstellungen"
+msgstr "Kurzreferenz"
 
 #. I18N: Combat command in MM1
 #: engines/mm/mm1/metaengine.cpp:62
@@ -7315,7 +7311,7 @@ msgstr "Das Format dieses Spielstands ist veraltet; laden nicht möglich"
 msgid "Savegame version is %d, maximum supported is %0d"
 msgstr "Spielstand-Version ist %d, höchste unterstützte Version ist %0d"
 
-#: engines/sci/engine/savegame.cpp:1480
+#: engines/sci/engine/savegame.cpp:1481
 msgid ""
 "This saved game was created with a different version of the game, unable to "
 "load it"
@@ -7667,11 +7663,13 @@ msgstr ""
 
 #: engines/scumm/dialogs.cpp:1376
 msgid "Enable online competitive mods"
-msgstr ""
+msgstr "Mods für kompetitiven Mehrspieler-Modus aktivieren"
 
 #: engines/scumm/dialogs.cpp:1376
 msgid "Enables custom-made modifications intented for online competitive play."
 msgstr ""
+"Aktiviere zusätzliche Modifikationen, die für den kompetitiven Mehrspieler-"
+"Modus entwickelt wurden."
 
 #: engines/scumm/dialogs.cpp:1380
 msgid "Enable connection to Multiplayer Server"

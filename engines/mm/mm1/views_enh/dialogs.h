@@ -26,6 +26,7 @@
 #include "mm/mm1/views/bash.h"
 #include "mm/mm1/views/title.h"
 #include "mm/mm1/views_enh/character_info.h"
+#include "mm/mm1/views_enh/character_inventory.h"
 #include "mm/mm1/views_enh/character_select.h"
 #include "mm/mm1/views_enh/characters.h"
 #include "mm/mm1/views_enh/confirm.h"
@@ -42,6 +43,7 @@
 #include "mm/mm1/views_enh/title.h"
 #include "mm/mm1/views_enh/trap.h"
 #include "mm/mm1/views_enh/unlock.h"
+#include "mm/mm1/views_enh/which_item.h"
 #include "mm/mm1/views_enh/who_will_try.h"
 #include "mm/mm1/views_enh/interactions/statue.h"
 #include "mm/mm1/views_enh/locations/blacksmith_items.h"
@@ -71,6 +73,7 @@ private:
 	ViewsEnh::Spells::CastSpell _castSpell;
 	ViewsEnh::Spells::Spellbook _spellbook;
 	ViewsEnh::CharacterInfo _characterInfo;
+	ViewsEnh::CharacterInventory _characterInventory;
 	ViewsEnh::CharacterSelect _characterSelect;
 	ViewsEnh::Characters _characters;
 	ViewsEnh::Confirm _confirm;
@@ -87,6 +90,7 @@ private:
 	ViewsEnh::Title _title;
 	ViewsEnh::Trap _trap;
 	ViewsEnh::Unlock _unlock;
+	ViewsEnh::WhichItem _whichItem;
 	ViewsEnh::WhoWillTry _whoWillTry;
 	Views::Bash _bash;
 public:

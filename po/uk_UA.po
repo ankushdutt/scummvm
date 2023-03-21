@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ScummVM 1.9.0git\n"
 "Report-Msgid-Bugs-To: scummvm-devel@lists.scummvm.org\n"
-"POT-Creation-Date: 2023-03-19 18:26+0000\n"
-"PO-Revision-Date: 2023-03-20 12:38+0000\n"
+"POT-Creation-Date: 2023-03-20 20:44+0000\n"
+"PO-Revision-Date: 2023-03-20 15:31+0000\n"
 "Last-Translator: Eugene Sandulenko <sev@scummvm.org>\n"
 "Language-Team: Ukrainian <https://translations.scummvm.org/projects/scummvm/"
 "scummvm/uk/>\n"
@@ -1016,7 +1016,7 @@ msgstr "Платформа не визначена"
 msgid "All"
 msgstr "Усі"
 
-#: gui/launcher.cpp:1570
+#: gui/launcher.cpp:1573
 msgid "Icons per row:"
 msgstr "Іконок на рядок:"
 
@@ -2146,7 +2146,7 @@ msgstr "Записати"
 msgid "Playback"
 msgstr "Відтворити"
 
-#: gui/recorderdialog.cpp:77 gui/widgets/grid.cpp:233
+#: gui/recorderdialog.cpp:77 gui/widgets/grid.cpp:248
 msgid "Edit"
 msgstr "Редагувати"
 
@@ -2343,11 +2343,11 @@ msgstr ""
 msgid "Clear value"
 msgstr "Очистити значення"
 
-#: gui/widgets/grid.cpp:227
+#: gui/widgets/grid.cpp:242
 msgid "Play"
 msgstr "Грати"
 
-#: gui/widgets/grid.cpp:230
+#: gui/widgets/grid.cpp:245
 msgid "Saves"
 msgstr "Зберігання"
 
@@ -5664,11 +5664,11 @@ msgstr "Назад"
 
 #: engines/hpl1/metaengine.cpp:83 engines/mm/mm1/metaengine.cpp:77
 msgid "Strafe Left"
-msgstr "Наліво"
+msgstr "Стрейф наліво"
 
 #: engines/hpl1/metaengine.cpp:84 engines/mm/mm1/metaengine.cpp:78
 msgid "Strafe Right"
-msgstr "Направо"
+msgstr "Стрейфувати направо"
 
 #: engines/hpl1/metaengine.cpp:85
 msgid "Lean Left"
@@ -7218,7 +7218,7 @@ msgstr "Формат цього файлу збереженої гри заст�
 msgid "Savegame version is %d, maximum supported is %0d"
 msgstr "Версія файлу збереження %d, але максимально підртимується %0d"
 
-#: engines/sci/engine/savegame.cpp:1480
+#: engines/sci/engine/savegame.cpp:1481
 msgid ""
 "This saved game was created with a different version of the game, unable to "
 "load it"

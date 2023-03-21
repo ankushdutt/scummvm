@@ -39,6 +39,7 @@ MODULE_OBJS += \
 	mm1/game/game_logic.o \
 	mm1/game/combat.o \
 	mm1/game/encounter.o \
+	mm1/game/equip_remove.o \
 	mm1/game/monster_touch.o \
 	mm1/game/rest.o \
 	mm1/game/spell_casting.o \
@@ -127,6 +128,7 @@ MODULE_OBJS += \
 	mm1/views_enh/button_container.o \
 	mm1/views_enh/character_base.o \
 	mm1/views_enh/character_info.o \
+	mm1/views_enh/character_inventory.o \
 	mm1/views_enh/character_manage.o \
 	mm1/views_enh/character_select.o \
 	mm1/views_enh/character_view.o \
@@ -158,6 +160,7 @@ MODULE_OBJS += \
 	mm1/views_enh/title.o \
 	mm1/views_enh/trap.o \
 	mm1/views_enh/unlock.o \
+	mm1/views_enh/which_item.o \
 	mm1/views_enh/who_will_try.o \
 	mm1/views_enh/yes_no.o \
 	mm1/views_enh/interactions/interaction.o \

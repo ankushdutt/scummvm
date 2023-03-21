@@ -19,74 +19,84 @@
  *
  */
 
-#ifndef MM1_VIEWS_ENH_ITEMS_VIEW_H
-#define MM1_VIEWS_ENH_ITEMS_VIEW_H
+#ifndef MM1_VIEWS_ENH_CHARACTER_INVENTORY_H
+#define MM1_VIEWS_ENH_CHARACTER_INVENTORY_H
 
-#include "mm/mm1/views_enh/party_view.h"
+#include "mm/mm1/views_enh/items_view.h"
+#include "mm/mm1/data/character.h"
+#include "mm/mm1/game/equip_remove.h"
 
 namespace MM {
 namespace MM1 {
 namespace ViewsEnh {
 
-class ItemsView : public PartyView {
+class CharacterInventory : public ItemsView, Game::EquipRemove {
+private:
+	enum DisplayMode {
+		ARMS_MODE, BACKPACK_MODE
+	};
+	DisplayMode _mode = ARMS_MODE;
+	enum SelectedButton {
+		BTN_NONE, BTN_EQUIP, BTN_REMOVE, BTN_DISCARD
+	};
+	SelectedButton _selectedButton = BTN_NONE;
+	Character *_initialChar = nullptr;
+
+	/**
+	 * Populates the list of items
+	 */
+	void populateItems();
+
+	/**
+	 * Displays the title row
+	 */
+	void drawTitle();
+
+	/**
+	 * Selects a button mode
+	 */
+	void selectButton(SelectedButton btnMode);
+
+	/**
+	 * Handle action with selected button mode and selected item
+	 */
+	void performAction();
+
+	/**
+	 * Equip an item
+	 */
+	void equipItem();
+
+	/**
+	 * Unequip an item
+	 */
+	void removeItem();
+
+	/**
+	 * Discard an item
+	 */
+	void discardItem();
+
 protected:
-	enum CostMode { SHOW_COST, SHOW_VALUE, NO_COST };
-	int _selectedItem = -1;
-	CostMode _costMode = NO_COST;
-	Common::Array<int> _items;
-	const Common::Rect _buttonsArea;
-	Shared::Xeen::SpriteResource _btnSprites;
-	Common::StringArray _btnText;
-
-	/**
-	 * Add a button to the buttons bar
-	 */
-	void addButton(int frame, const Common::String &text,
-		Common::KeyCode keycode);
-
-	/**
-	 * Display a message that the inventory is full
-	 */
-	void backpackFull();
-
-	/**
-	 * Display a message the character doesn't have enough gold
-	 */
-	void notEnoughGold();
-
-	/**
-	 * Display an arbitrary message
-	 */
-	void displayMessage(const Common::String &msg);
-
-	/**
-	 * Get the text color for a line
-	 */
-	virtual int getLineColor() const {
-		return 0;
-	}
-
 	/**
 	 * Called when an item is selected
 	 */
-	virtual void itemSelected() = 0;
+	void itemSelected() override;
 
 	/**
 	 * When the selected character is changed
 	 */
-	virtual void selectedCharChanged() = 0;
+	void selectedCharChanged() override;
 
 public:
-	ItemsView(const Common::String &name);
-	virtual ~ItemsView() {}
+	CharacterInventory();
+	virtual ~CharacterInventory() {}
 
 	bool msgFocus(const FocusMessage &msg) override;
 	bool msgGame(const GameMessage &msg) override;
 	void draw() override;
 	bool msgKeypress(const KeypressMessage &msg) override;
-	bool msgMouseDown(const MouseDownMessage &msg) override;
 	bool msgAction(const ActionMessage &msg) override;
-	void timeout() override;
 };
 
 } // namespace ViewsEnh
