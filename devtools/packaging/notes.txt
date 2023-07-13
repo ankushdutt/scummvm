@@ -1,0 +1,5 @@
+python3 add_packs.py --androidsdk $ANDROID_SDK_ROOT --sdkver 33 --buildtoolsver 33.0.2 --bundletool bundletool-all-1.15.1.jar --inputbundle ScummVM-debug.aab --packdir ../../output/android --packnames=bass.zip --output scummvm-bundled.aab
+
+python3 generate_asset_pack.py --packagename org.scummvm.scummvm.dynamic.assetpacksapp --assetpackname bass --deliverymode on-demand --assetsdir ../../games/bass-cd-1.2 --outdir ../../output/android
+
+python3 package.py --export-platform android --game beneath-a-steel-sky --game-location games/bass-cd-1.2 --binary-location binary/ScummVM-debug.aab
