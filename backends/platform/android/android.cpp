@@ -72,8 +72,6 @@
 #include "backends/keymapper/keymapper-defaults.h"
 #include "backends/keymapper/standard-actions.h"
 
-#include "backends/dlc/android/playstore.h"
-
 #include "common/util.h"
 #include "common/textconsole.h"
 #include "common/rect.h"
@@ -219,10 +217,6 @@ OSystem_Android::OSystem_Android(int audio_sample_rate, int audio_buffer_size) :
 		fsFactory.initSAF();
 	}
 	_fsFactory = &fsFactory;
-
-#if defined(USE_DLC)
-	_dlcStore = new DLC::PlayStore::PlayStore();
-#endif
 }
 
 OSystem_Android::~OSystem_Android() {
@@ -257,9 +251,6 @@ OSystem_Android::~OSystem_Android() {
 
 	delete _logger;
 	_logger = nullptr;
-
-	delete _dlcStore;
-	_dlcStore = nullptr;
 }
 
 void *OSystem_Android::timerThreadFunc(void *arg) {
@@ -641,9 +632,6 @@ bool OSystem_Android::hasFeature(Feature f) {
 			f == kFeatureJoystickDeadzone) {
 		return true;
 	}
-#if defined(USE_DLC)
-	if (f == kFeatureDLC) return true;
-#endif
 	/* Even if we are using the 2D graphics manager,
 	 * we are at one initGraphics3d call of supporting GLES2 */
 	if (f == kFeatureOpenGLForGame) return true;
