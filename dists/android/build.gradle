@@ -71,8 +71,9 @@ android {
 
     }
     buildTypes {
-        debug{
+        debug {
             debuggable true
+            buildConfigField "boolean", "USE_PAD", "false"
         }
         release {
             debuggable false
@@ -89,6 +90,17 @@ android {
             // R8 configuration files.
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
+            buildConfigField "boolean", "USE_PAD", "false"
+        }
+        paddebug {
+            debuggable true
+            buildConfigField "boolean", "USE_PAD", "true"
+        }
+        padrelease {
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "USE_PAD", "true"
         }
     }
     sourceSets {
@@ -108,4 +120,5 @@ android {
 dependencies {
     implementation "androidx.annotation:annotation:1.5.0"
     implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "com.google.android.play:asset-delivery:2.1.0"
 }

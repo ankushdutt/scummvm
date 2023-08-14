@@ -120,6 +120,8 @@ public:
 	static Common::Array<jobject> getSAFTrees();
 	static jobject findSAFTree(const Common::String &name);
 
+	static jobject getDLCPlaystore();
+
 private:
 	static pthread_key_t _env_tls;
 
@@ -164,6 +166,8 @@ private:
 	static jmethodID _MID_getSAFTrees;
 	static jmethodID _MID_findSAFTree;
 
+	static jmethodID _MID_getDLCPlaystore;
+
 	static jmethodID _MID_EGL10_eglSwapBuffers;
 
 	static jmethodID _MID_AudioTrack_flush;
@@ -197,6 +201,10 @@ private:
 	static jstring getNativeVersionInfo(JNIEnv *env, jobject self);
 	static jstring convertToJString(JNIEnv *env, const Common::U32String &str);
 	static Common::U32String convertFromJString(JNIEnv *env, const jstring &jstr);
+
+	static void addEntryToConfig(JNIEnv *env, jobject self, jstring jstr);
+	static void updateDownloadedBytes(JNIEnv *env, jobject self, jlong downloadedBytes, jlong totalSize);
+	static void processNextDownload(JNIEnv *env, jobject self);
 
 	static PauseToken _pauseToken;
 

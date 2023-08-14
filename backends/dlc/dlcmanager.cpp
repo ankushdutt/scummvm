@@ -82,6 +82,7 @@ void DLCManager::addDownload(uint32 idx) {
 
 void DLCManager::processDownloadQueue() {
 	_currentDownloadedSize = 0;
+	_currentTotalSize = 0;
 	_isDLCDownloading = true;
 	if (!_queuedDownloadTasks.empty()) {
 		if (_queuedDownloadTasks.front()->state == DLCDesc::kInProgress) {
@@ -108,7 +109,7 @@ void DLCManager::startDownloadAsync(const Common::String &id, const Common::Stri
 bool DLCManager::cancelDownload(uint32 idx) {
 	if (_queuedDownloadTasks.front()->idx == idx) {
 		// if already downloading, interrupt startDownloadAsync
-		_interruptCurrentDownload = true;
+		_store->cancelDownload();
 	} else {
 		// if not started, skip it in processDownload()
 		_dlcs[idx]->state = DLCDesc::kCancelled;

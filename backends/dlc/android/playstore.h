@@ -19,32 +19,40 @@
  *
  */
 
-#ifndef BACKENDS_DLC_STORE_H
-#define BACKENDS_DLC_STORE_H
+#ifndef BACKENDS_DLC_PLAYSTORE_H
+#define BACKENDS_DLC_PLAYSTORE_H
 
-#include "common/str.h"
-#include "common/path.h"
+#if defined(__ANDROID__)
 
-#include "backends/dlc/dlcdesc.h"
+#include "backends/dlc/store.h"
+#include <jni.h>
 
 namespace DLC {
+namespace PlayStore {
+class PlayStore : public DLC::Store {
 
-class Store {
-	
 public:
-	Store() {}
-	virtual ~Store() {}
+	PlayStore();
+	virtual ~PlayStore() {}
 
-	virtual void getAllDLCs() = 0;
+	void initJNI();
+	void setDLCPath(Common::String path);
 
-	virtual void startDownloadAsync(const Common::String &id, const Common::String &url) = 0;
+	virtual void getAllDLCs() override;
+	virtual void startDownloadAsync(const Common::String &id, const Common::String &url) override;
+	virtual void removeCacheFile(const Common::Path &file) override {}
+	virtual void cancelDownload() override;
 
-	virtual void removeCacheFile(const Common::Path &file) = 0;
-
-	virtual void cancelDownload() = 0;
+private:
+	bool _JNIinit = false;
+	jmethodID _MID_startDownload = 0;
+	jmethodID _MID_cancelDownload = 0;
+	jmethodID _MID_setDLCPath = 0;
+	jobject _dlcPlaystore;
 };
 
+} // End of namespace PlayStore
 } // End of namespace DLC
 
-
+#endif
 #endif

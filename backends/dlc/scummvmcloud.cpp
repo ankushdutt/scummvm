@@ -158,6 +158,7 @@ void ScummVMCloud::errorCallback(Networking::ErrorResponse error) {
 }
 
 void ScummVMCloud::startDownloadAsync(const Common::String &id, const Common::String &url) {
+	DLCMan._currentTotalSize = DLCMan._queuedDownloadTasks.front()->size;
 	Common::String localFile = normalizePath(ConfMan.get("dlcspath") + "/" + id, '/');
 
 	_rq = new Networking::SessionRequest(url, localFile,
@@ -165,6 +166,10 @@ void ScummVMCloud::startDownloadAsync(const Common::String &id, const Common::St
 		new Common::Callback<ScummVMCloud, Networking::ErrorResponse>(this, &ScummVMCloud::errorCallback));
 
 	_rq->start();
+}
+
+void ScummVMCloud::cancelDownload() {
+	DLCMan._interruptCurrentDownload = true;
 }
 
 Common::Error ScummVMCloud::extractZip(const Common::Path &file, const Common::Path &destPath) {

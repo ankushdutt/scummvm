@@ -44,6 +44,8 @@
 #include "backends/platform/android/android.h"
 #include "backends/platform/android/jni-android.h"
 #include "backends/platform/android/asset-archive.h"
+#include "backends/dlc/dlcmanager.h"
+#include "backends/dlc/dlcdesc.h"
 
 #include "base/main.h"
 #include "base/version.h"
@@ -107,6 +109,8 @@ jmethodID JNI::_MID_getNewSAFTree = 0;
 jmethodID JNI::_MID_getSAFTrees = 0;
 jmethodID JNI::_MID_findSAFTree = 0;
 
+jmethodID JNI::_MID_getDLCPlaystore = 0;
+
 jmethodID JNI::_MID_EGL10_eglSwapBuffers = 0;
 
 jmethodID JNI::_MID_AudioTrack_flush = 0;
@@ -140,7 +144,13 @@ const JNINativeMethod JNI::_natives[] = {
 	{ "setPause", "(Z)V",
 		(void *)JNI::setPause },
 	{ "getNativeVersionInfo", "()Ljava/lang/String;",
-		(void *)JNI::getNativeVersionInfo }
+		(void *)JNI::getNativeVersionInfo },
+	{ "addEntryToConfig", "(Ljava/lang/String;)V",
+		(void *)JNI::addEntryToConfig },
+	{ "updateDownloadedBytes", "(JJ)V",
+		(void *)JNI::updateDownloadedBytes },
+	{ "processNextDownload", "()V",
+		(void *)JNI::processNextDownload }
 };
 
 JNI::JNI() {
@@ -800,6 +810,8 @@ void JNI::create(JNIEnv *env, jobject self, jobject asset_manager,
 	FIND_METHOD(, getSAFTrees, "()[Lorg/scummvm/scummvm/SAFFSTree;");
 	FIND_METHOD(, findSAFTree, "(Ljava/lang/String;)Lorg/scummvm/scummvm/SAFFSTree;");
 
+	FIND_METHOD(, getDLCPlaystore, "()Lorg/scummvm/scummvm/DLCPlaystore;");
+
 	_jobj_egl = env->NewGlobalRef(egl);
 	_jobj_egl_display = env->NewGlobalRef(egl_display);
 	_egl_version = 0;
@@ -1001,6 +1013,54 @@ jstring JNI::getNativeVersionInfo(JNIEnv *env, jobject self) {
 	return convertToJString(env, Common::U32String(gScummVMVersion));
 }
 
+// DLC functions for Play Store distribution
+void JNI::addEntryToConfig(JNIEnv *env, jobject self, jstring jstr) {
+	if (!_system)
+		return;
+	Common::U32String path = convertFromJString(env, jstr);
+	Common::Path gamePath(path);
+	Common::FSNode dir(gamePath);
+	Common::FSList fsnodes;
+	if (!dir.getChildren(fsnodes, Common::FSNode::kListAll)) {
+		LOGW("JNI::addEntryToConfig(): Game directory does not exists");
+		return;
+	}
+	if (fsnodes.size() == 1 && fsnodes[0].isDirectory()) {
+		// if extraction process created a new folder inside gamePath, set gamePath to that directory
+		gamePath = gamePath.appendComponent(fsnodes[0].getFileName());
+	}
+	// add a new entry in scummvm config file
+	DLC::DLCDesc *dlc = DLCMan._queuedDownloadTasks.front();
+	Common::String domain = EngineMan.generateUniqueDomain(dlc->gameid);
+	ConfMan.addGameDomain(domain);
+	ConfMan.set("engineid", dlc->engineid, domain);
+	ConfMan.set("gameid", dlc->gameid, domain);
+	ConfMan.set("description", dlc->description, domain);
+	ConfMan.set("language", dlc->language, domain);
+	ConfMan.set("platform", dlc->platform, domain);
+	ConfMan.set("path", gamePath.toString(), domain);
+	ConfMan.set("extra", dlc->extra, domain);
+	ConfMan.set("guioptions", dlc->guioptions, domain);
+	ConfMan.set("download", dlc->id, domain);
+
+	// send refresh launcher command to GUI
+	DLCMan.refreshLauncherGameList();
+}
+
+void JNI::updateDownloadedBytes(JNIEnv *env, jobject self, jlong downloadedBytes, jlong totalSize) {
+	DLCMan._currentTotalSize = totalSize;
+	DLCMan._currentDownloadedSize += downloadedBytes;
+}
+
+void JNI::processNextDownload(JNIEnv *env, jobject self) {
+	DLCMan._currentDownloadedSize = DLCMan._currentTotalSize;
+	DLCMan._queuedDownloadTasks.front()->state = DLC::DLCDesc::kDownloaded;
+	DLCMan.refreshDLCList();
+	DLCMan._queuedDownloadTasks.pop();
+	DLCMan._dlcsInProgress.remove_at(0);
+	DLCMan.processDownloadQueue();
+}
+
 jint JNI::getAndroidSDKVersionId() {
 	// based on: https://stackoverflow.com/a/10511880
 	JNIEnv *env = JNI::getEnv();
@@ -1147,6 +1207,23 @@ jobject JNI::findSAFTree(const Common::String &name) {
 	}
 
 	return tree;
+}
+
+jobject JNI::getDLCPlaystore() {
+	JNIEnv *env = JNI::getEnv();
+
+	jobject store = env->CallObjectMethod(_jobj, _MID_getDLCPlaystore);
+
+	if (env->ExceptionCheck()) {
+		LOGE("getDLCPlaystore: error");
+
+		env->ExceptionDescribe();
+		env->ExceptionClear();
+
+		return nullptr;
+	}
+
+	return store;
 }
 
 #endif

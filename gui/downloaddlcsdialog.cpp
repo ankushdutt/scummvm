@@ -66,7 +66,7 @@ DownloadDLCsDialog::DownloadDLCsDialog()
 Common::U32String DownloadDLCsDialog::getSizeLabelText() {
 	const char *downloadedUnits, *totalUnits;
 	Common::String downloaded = Common::getHumanReadableBytes(DLCMan._currentDownloadedSize, downloadedUnits);
-	Common::String total = Common::getHumanReadableBytes(DLCMan._queuedDownloadTasks.front()->size, totalUnits);
+	Common::String total = Common::getHumanReadableBytes(DLCMan._currentTotalSize, totalUnits);
 	return Common::U32String::format(_("Downloaded %s %S / %s %S"), downloaded.c_str(), _(downloadedUnits).c_str(), total.c_str(), _(totalUnits).c_str());
 }
 
@@ -75,7 +75,7 @@ uint32 DownloadDLCsDialog::getDownloadingProgress() {
 		// no DLC is currently downloading
 		return 0;
 	}
-	uint32 progress = (uint32)(100 * ((double)DLCMan._currentDownloadedSize / (double)DLCMan._queuedDownloadTasks.front()->size));
+	uint32 progress = (uint32)(100 * ((double)DLCMan._currentDownloadedSize / (double)DLCMan._currentTotalSize));
 	return progress;
 }
 

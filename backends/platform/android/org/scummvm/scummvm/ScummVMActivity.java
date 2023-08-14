@@ -877,6 +877,15 @@ public class ScummVMActivity extends Activity implements OnKeyboardVisibilityLis
 		protected SAFFSTree findSAFTree(String name) {
 			return SAFFSTree.findTree(ScummVMActivity.this, name);
 		}
+
+		@Override
+		protected DLCPlaystore getDLCPlaystore() {
+			if (BuildConfig.USE_PAD) {
+				return new DLCPlaystore(ScummVMActivity.this);
+			} else {
+				return null;
+			}
+		}
 	}
 
 	private MyScummVM _scummvm;

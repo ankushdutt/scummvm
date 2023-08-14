@@ -11,6 +11,8 @@ PATH_BUILD_LIBSCUMMVM = $(PATH_BUILD)/lib/$(ABI)/libscummvm.so
 
 APK_MAIN = ScummVM-debug.apk
 APK_MAIN_RELEASE = ScummVM-release-unsigned.apk
+AAB_MAIN = ScummVM-paddebug.aab
+AAB_MAIN_RELEASE = ScummVM-padrelease-unsigned.aab
 
 $(PATH_BUILD):
 	$(MKDIR) $(PATH_BUILD)
@@ -58,6 +60,14 @@ $(APK_MAIN_RELEASE): $(PATH_BUILD_GRADLE) $(PATH_BUILD_ASSETS) $(PATH_BUILD_ASSE
 	(cd $(PATH_BUILD); ./gradlew assembleRelease)
 	$(CP) $(PATH_BUILD)/build/outputs/apk/release/$(APK_MAIN_RELEASE) $@
 
+$(AAB_MAIN): $(PATH_BUILD_GRADLE) $(PATH_BUILD_ASSETS) $(PATH_BUILD_ASSETS)/cacert.pem $(PATH_BUILD_LIBSCUMMVM) | $(PATH_BUILD)
+	(cd $(PATH_BUILD); ./gradlew bundlePaddebug)
+	$(CP) $(PATH_BUILD)/build/outputs/bundle/paddebug/$(AAB_MAIN) $@
+
+$(AAB_MAIN_RELEASE): $(PATH_BUILD_GRADLE) $(PATH_BUILD_ASSETS) $(PATH_BUILD_ASSETS)/cacert.pem $(PATH_BUILD_LIBSCUMMVM) | $(PATH_BUILD)
+	(cd $(PATH_BUILD); ./gradlew bundlePadrelease)
+	$(CP) $(PATH_BUILD)/build/outputs/bundle/padrelease/$(AAB_MAIN_RELEASE) $@
+
 all: $(APK_MAIN)
 
 clean: androidclean
@@ -93,5 +103,9 @@ androiddistrelease: androidrelease
 	for i in $(DIST_FILES_DOCS); do \
 		sed 's/$$/\r/' < $$i > release/`basename $$i`.txt; \
 	done
+
+androidbundledebug: $(AAB_MAIN)
+
+androidbundlerelease: $(AAB_MAIN_RELEASE)
 
 .PHONY: androidrelease androidtest $(PATH_BUILD_SRC)

@@ -66,6 +66,11 @@ public abstract class ScummVM implements SurfaceHolder.Callback, Runnable {
 
 	final public native String getNativeVersionInfo();
 
+	// DLC functions for Play Store distribution
+	public static native void addEntryToConfig(String gamePath);
+	public static native void updateDownloadedBytes(long downloadedBytes, long totalSize);
+	public static native void processNextDownload();
+
 	// Callbacks from C++ peer instance
 	abstract protected void getDPI(float[] values);
 	abstract protected void displayMessageOnOSD(String msg);
@@ -90,6 +95,7 @@ public abstract class ScummVM implements SurfaceHolder.Callback, Runnable {
 	abstract protected SAFFSTree getNewSAFTree(boolean folder, boolean write, String initialURI, String prompt);
 	abstract protected SAFFSTree[] getSAFTrees();
 	abstract protected SAFFSTree findSAFTree(String name);
+	abstract protected DLCPlaystore getDLCPlaystore();
 
 	public ScummVM(AssetManager asset_manager, SurfaceHolder holder, final MyScummVMDestroyedCallback scummVMDestroyedCallback) {
 		_asset_manager = asset_manager;

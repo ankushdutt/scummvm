@@ -46,12 +46,12 @@ DLCsDialog::DLCsDialog() : Dialog("DownloadGames") {
 	_gamesList->setEditable(false);
 
 	if (!DLCMan._fetchDLCs) {
-		DLCMan.getAllDLCs();
 		DLCMan._fetchDLCs = true;
 		Common::U32StringArray fetchingText = {
 			_("Fetching DLCs..."),
 		};
 		_gamesList->setList(fetchingText);
+		DLCMan.getAllDLCs();
 	} else {
 		refreshDLCList();
 	}

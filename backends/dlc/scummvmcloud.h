@@ -49,6 +49,8 @@ public:
 
 	virtual void removeCacheFile(const Common::Path &file) override;
 
+	virtual void cancelDownload() override;
+
 	// extracts the provided zip in the provided destination path
 	Common::Error extractZip(const Common::Path &file, const Common::Path &destPath);
 
